@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api = axios.create({
     baseURL: 'https://api.exchangerate.host',
-    timeout: 1000,
+    timeout: 10000,
 })
 
 export async function fetchExchangeRates(base = 'USD', currencies = '') {
