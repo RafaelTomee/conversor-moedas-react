@@ -16,11 +16,16 @@ export async function fetchExchangeRates(base = 'USD', currencies = '') {
         })
 
         if (data?.success !== true) {
-            const msg = data?.error?.info || 'Resposta inválida da API Exchangerate.host'
+            const msg = data?.error?.info || 'Resposta invalida da API Exchangerate.host'
 throw new Error(msg)
         }
         return data
     } catch (error){
+
+        if (error.code == 'ECONNABORTED'){
+            throw new Error('A requisição demorou demais e foi cancelada (timeout).')
+        }
+
         if(error.response) {
             const status = error.response.status
             if(status === 401) throw new Error('Chave de API invalida ou não autorizada.')
@@ -28,7 +33,7 @@ throw new Error(msg)
             throw new Error(`Erro ${status} ao consultar cotações.`)
         }
         if (error.request) {
-            throw new Error('Não foi possível conectar á API Exchangerate.host')
+            throw new Error('Não foi possível conectar a API Exchangerate.host')
         }
         throw error
     }
