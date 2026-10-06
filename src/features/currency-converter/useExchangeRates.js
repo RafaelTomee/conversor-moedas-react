@@ -1,10 +1,7 @@
 import { useReducer, useCallback } from "react";
 import { currencyReducer, initialState } from "./currencyReducer";
  
-// MOCK enquanto o service real (issue #2) não termina.
-// Quando ele existir, troque só esta linha:
-import { fetchExchangeRates } from "./api.mock";
-// import { fetchExchangeRates } from "./api";
+import { fetchExchangeRates } from "../../api/exchangerate"
  
 export function useExchangeRates() {
   const [state, dispatch] = useReducer(currencyReducer, initialState);
