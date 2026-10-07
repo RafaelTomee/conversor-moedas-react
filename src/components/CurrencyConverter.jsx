@@ -1,4 +1,4 @@
-import { useExchangeRates } from "./useExchangeRates";
+import { useExchangeRates } from "../hooks/useExchangeRates";
 
 export default function CurrencyConverter() {
   const {
