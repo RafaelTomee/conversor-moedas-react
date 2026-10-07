@@ -163,16 +163,9 @@ A equipe utilizou o Claude para:
 
 ### ChatGPT/Codex (OpenAI)
 
-O integrante `JuliooCezar` utilizou o ChatGPT/Codex para:
+A equipe utilizou o ChatGPT/Codex para:
 
-- esclarecer dúvidas sobre Git, branches e Pull Requests;
-- apoiar a integração e estilização com Material UI;
-- diagnosticar problemas de configuração;
-- revisar o funcionamento e a responsividade da interface;
-- auxiliar na elaboração e revisão deste README.
-
-Todo conteúdo sugerido por ferramentas de IA foi revisado, testado e ajustado antes de ser enviado ao repositório.
-
-## Convenções
-
-As regras de commits e branches utilizadas pela equipe estão documentadas em [`CONVENTIONS.md`](CONVENTIONS.md).
+- apoiar a integração e a estilização da interface com Material UI;
+- revisar o comportamento responsivo da aplicação;
+- auxiliar no diagnóstico de problemas de configuração;
+- revisar a organização e a clareza da documentação.
