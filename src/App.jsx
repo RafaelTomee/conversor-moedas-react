@@ -1,4 +1,5 @@
-import CurrencyConverter from "./features/currency-converter/CurrencyConverter";
+import CurrencyConverter from "./components/CurrencyConverter";
+
 function App() {
   return (
     <div style={{ padding: 24 }}>
