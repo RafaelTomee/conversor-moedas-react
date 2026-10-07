@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Conversor de Moedas
 
 Aplicação de página única (SPA) desenvolvida em React para converter moedas utilizando cotações reais fornecidas pela API Exchangerate.host. Projeto desenvolvido para a disciplina de Programação Web Fullstack.
@@ -171,6 +170,4 @@ A equipe utilizou o ChatGPT/Codex para:
 - auxiliar no diagnóstico de problemas de configuração;
 - revisar a organização e a clareza da documentação.
 =======
-# React + Vite
 
->>>>>>> develop
