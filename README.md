@@ -1,70 +1,178 @@
 # Conversor de Moedas
 
-SPA em React que consome a API Exchangerate.host para mostrar cotações de
-moedas. Projeto da disciplina Programação Web Fullstack.
+Aplicação de página única (SPA) desenvolvida em React para converter moedas utilizando cotações reais fornecidas pela API Exchangerate.host. Projeto desenvolvido para a disciplina de Programação Web Fullstack.
 
-## Rodando o projeto
+## Funcionalidades
+
+- Conversão entre Real, Dólar e Euro
+- Consulta de cotações reais
+- Indicador visual durante o carregamento
+- Mensagem amigável em caso de erro
+- Opção de tentar novamente
+- Interface responsiva para computador e celular
+
+## Tecnologias utilizadas
+
+- React
+- Vite
+- Axios
+- Material UI (MUI)
+- Exchangerate.host API
+
+## Pré-requisitos
+
+Antes de iniciar, é necessário ter instalado:
+
+- Node.js 20.19 ou superior
+- npm
+- Git
+
+## Como executar o projeto
+
+Clone a branch `develop` do repositório:
+
+```bash
+git clone --branch develop https://github.com/silvioGPS/FullStackProject-01.git
+cd FullStackProject-01
+```
+
+Instale as dependências:
 
 ```bash
 npm install
+```
+
+Crie o arquivo `.env` a partir do exemplo.
+
+No Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+No Linux ou macOS:
+
+```bash
 cp .env.example .env
 ```
 
-Preenche o `.env` com sua access_key (pega uma gratuita em exchangerate.host):
+Crie uma chave de acesso gratuita no site da [Exchangerate.host](https://exchangerate.host/) e coloque-a no arquivo `.env`:
 
-```
+```env
 VITE_API_KEY_EXCHANGERATES=sua_chave_aqui
 ```
+
+A chave é necessária para consultar o endpoint `/live` da API. O arquivo `.env` está protegido pelo `.gitignore` e não deve ser enviado ao GitHub.
+
+Inicie o projeto:
 
 ```bash
 npm run dev
 ```
 
-Abre em `http://localhost:5173`.
+A aplicação ficará disponível em:
 
-Padrão de commit/branch está no `CONVENTIONS.md`.
-
-## Estrutura das pastas
-
+```text
+http://localhost:5173
 ```
+
+## Estrutura do projeto
+
+```text
 src/
-├── api/          -> chamada HTTP pra API (exchangerate.js)
-├── reducers/      -> estado da conversão (currencyReducer.js)
-├── hooks/          -> useExchangeRates.js, junta o reducer com a api
-├── components/     -> CurrencyConverter.jsx, a tela
+├── api/
+│   └── exchangerate.js
 ├── assets/
+├── components/
+│   └── CurrencyConverter.jsx
+├── hooks/
+│   └── useExchangeRates.js
+├── reducers/
+│   └── currencyReducer.js
+├── App.css
 ├── App.jsx
+├── index.css
 └── main.jsx
 ```
 
-Separamos por tipo de arquivo: a pasta `api` só cuida de chamar a API, o
-`reducers` só cuida do estado, o `hooks` junta os dois, e o `components`
-só desenha a tela. Assim cada parte fica isolada e dá pra saber de quem
-foi cada pedaço.
+A estrutura foi separada por responsabilidade:
 
-Fluxo: o usuário mexe na tela -> o componente chama o hook
-`useExchangeRates` -> o hook usa `useReducer` pra controlar o estado
-(loading, erro, resultado) e chama o `api/exchangerate.js` -> que busca a
-cotação na Exchangerate.host.
+- `api/`: configura o Axios e realiza a comunicação com a Exchangerate.host.
+- `components/`: contém os componentes visuais da aplicação.
+- `hooks/`: concentra a lógica que conecta a interface, o estado e a API.
+- `reducers/`: controla as alterações de estado da conversão.
+- `assets/`: armazena arquivos estáticos utilizados pela aplicação.
+- `App.jsx`: organiza a tela principal.
+- `main.jsx`: inicializa a aplicação React.
 
-**Hook usado:** useReducer, pra centralizar o estado da conversão em vez
-de ficar com vários useState espalhados.
+Essa separação evita que interface, regras de estado e acesso à API fiquem misturados no mesmo arquivo, facilitando a manutenção e a localização de cada responsabilidade.
 
-**Biblioteca externa:** [nome da lib] — usada pra [motivo].
+## Fluxo de dados
 
-**API usada:** Exchangerate.host (endpoint `/live`), documentação em
-`docs/api.md`.
+O fluxo da conversão acontece da seguinte forma:
 
-## Uso de IA no desenvolvimento
+1. O usuário informa o valor e escolhe as moedas no componente `CurrencyConverter`.
+2. O componente chama a função `convert` do hook `useExchangeRates`.
+3. O hook utiliza `useReducer` para controlar `loading`, erro e resultado.
+4. O hook chama o serviço `src/api/exchangerate.js`.
+5. O serviço faz uma requisição ao endpoint `/live` da Exchangerate.host.
+6. O resultado ou o erro retorna ao hook.
+7. O reducer atualiza o estado e a interface exibe a resposta ao usuário.
 
-Usamos o Claude (Anthropic) em algumas partes do projeto:
+```text
+Interface → useExchangeRates → useReducer → exchangerate.js → Exchangerate.host
+```
 
-- Pra organizar as tarefas da equipe num quadro Kanban
-- Pra validar os endpoints da API e documentar os campos do retorno
-- Pra discutir qual hook fazia mais sentido usar e por quê
-- Pra gerar um primeiro rascunho do reducer e um mock da API, pra dar pra
-  testar sem depender do serviço real ainda
-- Pra revisar um PR e achar um bug no tratamento de timeout
-- Pra reorganizar a estrutura de pastas do projeto
+## Decisões técnicas
 
-Tudo que veio da IA a gente revisou, testou e ajustou antes de commitar.
+### useReducer
+
+O hook `useReducer` foi escolhido para centralizar estados relacionados, como moedas, valor, carregamento, erro e resultado. Isso evita vários estados separados e deixa as mudanças previsíveis por meio de ações.
+
+### Material UI
+
+O Material UI foi escolhido para fornecer componentes visuais acessíveis e consistentes, como campos, botões, indicadores de carregamento e alertas. A biblioteca também facilita a criação de um layout responsivo.
+
+### Axios
+
+O Axios é usado para realizar a requisição HTTP, configurar o endereço base da API e tratar timeout e erros de resposta.
+
+## Scripts disponíveis
+
+| Comando | Função |
+|---|---|
+| `npm run dev` | Inicia o servidor de desenvolvimento |
+| `npm run build` | Gera a versão de produção |
+| `npm run lint` | Analisa o código |
+| `npm run preview` | Visualiza localmente a versão de produção |
+
+## Uso de ferramentas de IA
+
+Ferramentas de inteligência artificial foram usadas como apoio durante o desenvolvimento.
+
+### Claude (Anthropic)
+
+A equipe utilizou o Claude para:
+
+- organizar tarefas em um quadro Kanban;
+- validar endpoints e documentar respostas da API;
+- discutir a escolha do hook;
+- gerar um rascunho inicial do reducer e do mock da API;
+- revisar tratamento de timeout;
+- auxiliar na reorganização das pastas.
+
+### ChatGPT/Codex (OpenAI)
+
+O integrante `JuliooCezar` utilizou o ChatGPT/Codex para:
+
+- esclarecer dúvidas sobre Git, branches e Pull Requests;
+- apoiar a integração e estilização com Material UI;
+- diagnosticar problemas de configuração;
+- revisar o funcionamento e a responsividade da interface;
+- auxiliar na elaboração e revisão deste README.
+
+Todo conteúdo sugerido por ferramentas de IA foi revisado, testado e ajustado antes de ser enviado ao repositório.
+
+## Convenções
+
+As regras de commits e branches utilizadas pela equipe estão documentadas em [`CONVENTIONS.md`](CONVENTIONS.md).
